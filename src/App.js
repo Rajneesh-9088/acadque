@@ -1,23 +1,31 @@
-// import logo from './logo.svg';
-import './App.css';
+import axios from "axios";
+import React, { useState, useEffect } from "react";
+import "./App.css";
 
 function App() {
+  const [allData, setAllData] = useState([]);
+  const [filteredData, setFilteredData] = useState(allData);
+
+  useEffect(() => {
+    axios(`https://hidden-ridge-05396.herokuapp.com/search?searchTerm=radius`)
+      .then((response) => {
+        console.log(response.data);
+        setAllData(response.data);
+        setFilteredData(response.data);
+      })
+      .catch((error) => {
+        console.log("Error getting fake data: " + error);
+      });
+  }, []);
+
+  const handleSearch = (event) => {};
+
   return (
     <div className="App">
-      <header className="App-header">
-        {/* <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-      </header>
+        <div style={{margin: "0 auto", marginTop: '10%'}} >
+             <label>Search </label>
+             <input type="text" onChange={(e) => handleSearch(e) } />
+        </div>
     </div>
   );
 }
